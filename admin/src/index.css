@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #FF2442;
+  --color-primary-light: #FF4D6A;
+  --color-primary-dark: #E01F3A;
+  --color-sidebar: #1e1e2e;
+  --color-sidebar-hover: #2a2a3e;
+  --color-sidebar-active: #FF2442;
+
+  --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+}

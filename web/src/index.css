@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #FF2442;
+  --color-primary-light: #FF6B81;
+  --color-primary-dark: #D91A36;
+  --color-secondary: #FFF1F2;
+  --color-accent: #2563EB;
+  --color-surface: #FFFFFF;
+  --color-surface-secondary: #F5F6FA;
+  --color-surface-tertiary: #FFF0F1;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-border: #F0F0F0;
+  --color-border-hover: #FFD6DB;
+
+  --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, 0deg)); }
+  50% { transform: translateY(-10px) rotate(var(--tw-rotate, 0deg)); }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@utility animate-page-in {
+  animation: fadeIn 0.35s ease-out;
+}

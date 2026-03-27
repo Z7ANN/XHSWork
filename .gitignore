@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.development
+.env.local
+.env.*.local
+
+# Server runtime
+server/output/
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.local
+
+# Package lock (keep only npm)
+yarn.lock
+pnpm-lock.yaml
+
+# Python cache
+__pycache__/
+
+# Misc
+*.tsbuildinfo
+
+# Kiro
+.kiro/
+
+# Old project
+老版本web/
