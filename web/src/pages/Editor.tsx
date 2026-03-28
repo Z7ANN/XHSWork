@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import { PlateEditor } from '@/components/editor/PlateEditor'
 import { PhonePreview } from '@/components/editor/PhonePreview'
-import { editorApi, modelApi } from '@/api'
+import { editorApi, modelApi, API_BASE } from '@/api'
 import type { AiModelOption } from '@/api'
 import { stripMarkdown } from '@/utils/stripMarkdown'
 import { SensitiveCheck } from '@/components/SensitiveCheck'
@@ -191,19 +191,21 @@ export default function EditorPage() {
     }, 0)
   }, [editorValue])
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files) return
     const remaining = 18 - coverImages.length
     const toAdd = Array.from(files).slice(0, remaining)
-    toAdd.forEach((file) => {
-      const reader = new FileReader()
-      reader.onload = (ev) => {
-        setCoverImages((prev) => prev.length < 18 ? [...prev, ev.target?.result as string] : prev)
-      }
-      reader.readAsDataURL(file)
-    })
     e.target.value = ''
+    for (const file of toAdd) {
+      try {
+        const { url } = await editorApi.uploadImage(file)
+        const fullUrl = `${API_BASE.startsWith('/') ? window.location.origin : ''}${url}`
+        setCoverImages((prev) => prev.length < 18 ? [...prev, fullUrl] : prev)
+      } catch (err: any) {
+        showToast(err.message || '图片上传失败', 'error')
+      }
+    }
   }
 
   const removeCoverImage = (index: number) => {

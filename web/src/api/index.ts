@@ -150,6 +150,19 @@ export const editorApi = {
       method: 'POST',
       body: JSON.stringify(body),
     }),
+  uploadImage: async (file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    const token = localStorage.getItem('token')
+    const res = await fetch(`${API_BASE}/editor/upload-image`, {
+      method: 'POST',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    })
+    const json = await res.json()
+    if (!json.success) throw new Error(json.error?.message || '上传失败')
+    return json.data as { url: string }
+  },
   checkSensitive: (text: string) =>
     request<{ id: number; word: string; category: string; replacements: string[]; index: number; length: number }[]>('/editor/check-sensitive', {
       method: 'POST',

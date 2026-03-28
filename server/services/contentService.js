@@ -50,7 +50,7 @@ async function generateContentStream(res, { topic, outlineText, category, user, 
     tagLine.split(/\s+/).forEach(t => { if (t) tags.push(t) })
     body = body.slice(0, tagIdx)
   }
-  content = stripMarkdown(body.trim())
+  content = stripMarkdown(body.trim()).replace(/^正文内容\s*/, '')
 
   res.write(`event: done\ndata: ${JSON.stringify({ title, content, tags })}\n\n`)
   res.end()

@@ -480,18 +480,21 @@ export default function OneClickPage() {
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files) return
     const remaining = 18 - coverImages.length
-    Array.from(files).slice(0, remaining).forEach((file) => {
-      const reader = new FileReader()
-      reader.onload = (ev) => {
-        setCoverImages(prev => prev.length < 18 ? [...prev, ev.target?.result as string] : prev)
-      }
-      reader.readAsDataURL(file)
-    })
+    const toUpload = Array.from(files).slice(0, remaining)
     e.target.value = ''
+    for (const file of toUpload) {
+      try {
+        const { url } = await editorApi.uploadImage(file)
+        const fullUrl = `${API_BASE.startsWith('/') ? window.location.origin : ''}${url}`
+        setCoverImages(prev => prev.length < 18 ? [...prev, fullUrl] : prev)
+      } catch (err: any) {
+        toast.error(err.message || '图片上传失败')
+      }
+    }
   }
 
   const handleCopyContent = async () => {

@@ -244,4 +244,14 @@ const checkSensitive = async (req, res) => {
   }
 }
 
-module.exports = { getModels, analyzeStyleHandler, outline, generateImagesHandler, retryImage, content, generate, publish, aiAssist, checkSensitive, save, update, history, historyDetail, historyDelete }
+const uploadImage = async (req, res) => {
+  try {
+    if (!req.file) return error(res, '请选择图片', ErrorCode.BAD_REQUEST, 400)
+    const url = `/api/uploads/${req.file.filename}`
+    return success(res, { url })
+  } catch (err) {
+    return error(res, err.message || '上传失败', ErrorCode.INTERNAL)
+  }
+}
+
+module.exports = { getModels, analyzeStyleHandler, outline, generateImagesHandler, retryImage, content, generate, publish, uploadImage, aiAssist, checkSensitive, save, update, history, historyDetail, historyDelete }

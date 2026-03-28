@@ -1,6 +1,17 @@
 const express = require('express')
 const router = express.Router()
+const multer = require('multer')
+const path = require('path')
 const editorController = require('../../controllers/web/editorController')
+
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, '../../uploads'),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname)
+    cb(null, `img_${Date.now()}_${Math.random().toString(36).slice(2, 8)}${ext}`)
+  },
+})
+const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } })
 
 // 获取用户可用模型
 router.get('/models', editorController.getModels)
@@ -15,6 +26,7 @@ router.post('/content', editorController.content)
 router.post('/generate', editorController.generate)
 
 // 一键发布
+router.post('/upload-image', upload.single('file'), editorController.uploadImage)
 router.post('/publish', editorController.publish)
 
 // AI 编辑辅助
